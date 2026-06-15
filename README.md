@@ -62,46 +62,22 @@ This Finance Agentic Chatbot is built as part of the **AI ML Engineer Program** 
 ## 🏗️ Architecture
 
 ### LangGraph Workflow
-## LangGraph Workflow
+**Flow Path:**
 
-```mermaid
-graph TD
-    START([START]) --> CLASSIFIER
-    
-    CLASSIFIER[CLASSIFIER NODE<br/>Intent Detection] -->|Has Intent| PLANNER[PLANNER NODE<br/>Step Planning]
-    CLASSIFIER -->|No Intent| RESPONSE1[RESPONSE GENERATION]
-    CLASSIFIER -->|Unknown| RESPONSE2[RESPONSE GENERATION]
-    
-    PLANNER --> TOOL_DECISION[TOOL DECISION NODE<br/>Tool Selection]
-    
-    TOOL_DECISION -->|Has Tool| TOOL_EXECUTE[TOOL EXECUTION NODE<br/>Execute Tool]
-    TOOL_DECISION -->|No Tool| RESPONSE3[RESPONSE GENERATION]
-    
-    TOOL_EXECUTE -->|Success| VALIDATION[VALIDATION NODE<br/>Validate Results]
-    TOOL_EXECUTE -->|Failure| RETRY[RETRY NODE<br/>Retry Logic]
-    TOOL_EXECUTE -->|Timeout| RETRY
-    
-    RETRY -->|Retry Allowed| TOOL_EXECUTE
-    RETRY -->|Max Retries| RESPONSE4[RESPONSE GENERATION]
-    RETRY -->|Success| VALIDATION
-    
-    VALIDATION -->|Pass| RISK_CHECK[RISK CHECK NODE<br/>Risk Assessment]
-    VALIDATION -->|Fail| RETRY
-    
-    RISK_CHECK -->|High Risk >70| HUMAN_REVIEW[HUMAN REVIEW NODE<br/>Human Approval]
-    RISK_CHECK -->|Low Risk <70| RESPONSE5[RESPONSE GENERATION]
-    
-    HUMAN_REVIEW -->|Approved| TOOL_EXECUTE
-    HUMAN_REVIEW -->|Denied| RESPONSE6[RESPONSE GENERATION]
-    HUMAN_REVIEW -->|Modified| TOOL_EXECUTE
-    
-    RESPONSE1 --> END([END])
-    RESPONSE2 --> END
-    RESPONSE3 --> END
-    RESPONSE4 --> END
-    RESPONSE5 --> END
-    RESPONSE6 --> END
-    RESPONSE_GENERATION[RESPONSE GENERATION NODE] --> END
+**Conditional Branches:**
+
+| From Node | Condition | Next Node |
+|-----------|-----------|-----------|
+| Classifier | Has intent | Planner |
+| Classifier | No intent | Response Generation |
+| Tool Execution | Success | Validation |
+| Tool Execution | Failure | Retry |
+| Validation | Pass | Risk Check |
+| Validation | Fail | Retry |
+| Risk Check | High Risk (>70) | Human Review |
+| Risk Check | Low Risk (<70) | Response Generation |
+| Human Review | Approved | Tool Execution |
+| Human Review | Denied | Response Generation |
 
 
 ### Node Descriptions
