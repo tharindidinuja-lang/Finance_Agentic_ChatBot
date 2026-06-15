@@ -62,3 +62,136 @@ This Finance Agentic Chatbot is built as part of the **AI ML Engineer Program** 
 ## 🏗️ Architecture
 
 ### LangGraph Workflow
+
+┌─────────────┐
+│ START │
+└──────┬──────┘
+▼
+┌─────────────────────┐
+│ CLASSIFIER NODE │
+│ (Intent Detection) │
+└──────────┬──────────┘
+│
+┌──────────────────┼──────────────────┐
+│ │ │
+▼ ▼ ▼
+┌─────────────┐ ┌─────────────┐ ┌─────────────┐
+│ PLANNER │ │ RESPONSE │ │ RESPONSE │
+│ NODE │ │ (No Intent)│ │ (Unknown) │
+└──────┬──────┘ └─────────────┘ └─────────────┘
+│
+▼
+┌─────────────┐
+│TOOL DECISION│
+│ NODE │
+└──────┬──────┘
+│
+┌───┼───┐
+│ │ │
+▼ ▼ ▼
+┌───────┐ ┌───────┐ ┌───────┐
+│ TOOL │ │RETRY │ │ERROR │
+│EXECUTE│ │ NODE │ │HANDLER│
+└───┬───┘ └───┬───┘ └───────┘
+│ │
+└────┬────┘
+▼
+┌───────────┐
+│VALIDATION │
+│ NODE │
+└─────┬─────┘
+│
+┌───┼───┐
+│ │ │
+▼ ▼ ▼
+┌─────────┐ ┌─────────┐
+│RISK CHECK│ │ RESPONSE│
+│ NODE │ │(if low) │
+└────┬────┘ └─────────┘
+│
+┌───┼───┐
+│ │ │
+▼ ▼ ▼
+┌─────────────┐
+│HUMAN REVIEW │
+│ NODE │
+└──────┬──────┘
+│
+┌───┼───┐
+│ │ │
+▼ ▼ ▼
+┌─────────┐ ┌─────────┐
+│APPROVED │ │ DENIED │
+└────┬────┘ └────┬────┘
+│ │
+└────┬─────┘
+▼
+┌─────────────┐
+│ RESPONSE │
+│ GENERATION │
+└──────┬──────┘
+▼
+┌───────────┐
+│ END │
+└───────────┘
+
+
+### Node Descriptions
+
+| Node | Responsibility | Input | Output |
+|------|---------------|-------|--------|
+| **Classifier** | Detect user intent | User message | intent, entities |
+| **Planner** | Create execution plan | intent, entities | current_plan |
+| **Tool Decision** | Select appropriate tool | current_plan, step | tool_calls |
+| **Tool Execution** | Execute tool | tool_calls | tool_results |
+| **Validation** | Validate results | tool_results | validation_status |
+| **Retry** | Handle failures | validation_status, retry_count | retry_action |
+| **Risk Check** | Assess transaction risk | amount, recipient | risk_score, flags |
+| **Human Review** | Get human approval | risk_score, transaction | human_approved |
+| **Response** | Generate user response | all results | final_response |
+
+---
+
+## 📦 Deliverables
+
+This project fulfills all 13 required deliverables:
+
+| # | Deliverable | Status | Location |
+|---|-------------|--------|----------|
+| 1 | Workflow Diagram | ✅ | `demo/workflow_diagram.txt` |
+| 2 | LangGraph Implementation | ✅ | `workflows/finance_graph.py` |
+| 3 | State Definition | ✅ | `state/finance_state.py` |
+| 4 | Classifier Node | ✅ | `nodes/classifier_node.py` |
+| 5 | Planner Node | ✅ | `nodes/planner_node.py` |
+| 6 | Tool Decision Node | ✅ | `nodes/tool_decision_node.py` |
+| 7 | Tool Execution Node | ✅ | `nodes/tool_execution_node.py` |
+| 8 | Response Generation Node | ✅ | `nodes/response_generation_node.py` |
+| 9 | Validation Node | ✅ | `nodes/validation_node.py` |
+| 10 | Retry Logic | ✅ | `nodes/retry_node.py` |
+| 11 | Risk Check Node | ✅ | `nodes/risk_check_node.py` |
+| 12 | Human Review Routing | ✅ | `nodes/human_review_node.py` |
+| 13 | Demo Inputs & Outputs | ✅ | `demo/demo_inputs.txt`, `demo/demo_outputs.json` |
+
+---
+
+## 🔧 Prerequisites
+
+### Required
+
+- **Python 3.10 or higher**
+- **OpenAI API Key** - [Get one here](https://platform.openai.com/api-keys)
+- **Internet connection** - For API calls
+
+### Optional
+
+- **Tavily API Key** - For web search (stock prices, news)
+
+---
+
+## 📥 Installation
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/tharindidinuja-lang/Finance_Agentic_ChatBot.git
+cd Finance_Agentic_ChatBot
