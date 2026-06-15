@@ -1,0 +1,107 @@
+{
+  "pending_reviews": [
+    {
+      "review_id": "HRV_20260613_001",
+      "submitted_at": "2026-06-13T09:30:15",
+      "user_id": "user_123",
+      "review_type": "transaction_approval",
+      "priority": "high",
+      "risk_score": 85,
+      "transaction_details": {
+        "amount": 15000.00,
+        "recipient": "CRYPTO_EXCHANGE_001",
+        "source_account": "ACC_1001",
+        "description": "Cryptocurrency purchase",
+        "timestamp": "2026-06-13T09:30:10"
+      },
+      "user_context": {
+        "user_tier": "premium",
+        "daily_limit_remaining": 10000.00,
+        "monthly_limit_remaining": 85000.00,
+        "recent_transactions": 3,
+        "account_age_days": 515
+      },
+      "risk_factors": [
+        "Amount exceeds daily limit by $5,000",
+        "First time transaction to crypto exchange",
+        "Transaction at off-hours"
+      ],
+      "status": "pending",
+      "assigned_to": null,
+      "timeout_minutes": 30,
+      "expires_at": "2026-06-13T10:00:15"
+    },
+    {
+      "review_id": "HRV_20260613_002",
+      "submitted_at": "2026-06-13T08:15:00",
+      "user_id": "test_user_001",
+      "review_type": "account_verification",
+      "priority": "medium",
+      "risk_score": 45,
+      "transaction_details": {
+        "amount": 8000.00,
+        "recipient": "INTERNATIONAL_BANK_HK",
+        "source_account": "ACC_2001",
+        "description": "International transfer",
+        "timestamp": "2026-06-13T08:14:55"
+      },
+      "user_context": {
+        "user_tier": "basic",
+        "daily_limit_remaining": 0.00,
+        "monthly_limit_remaining": 17000.00,
+        "recent_transactions": 2,
+        "account_age_days": 133
+      },
+      "risk_factors": [
+        "Amount exceeds daily limit",
+        "International recipient",
+        "New recipient"
+      ],
+      "status": "in_review",
+      "assigned_to": "reviewer_jane",
+      "timeout_minutes": 60,
+      "expires_at": "2026-06-13T09:15:00"
+    },
+    {
+      "review_id": "HRV_20260612_003",
+      "submitted_at": "2026-06-12T16:45:30",
+      "user_id": "premium_user",
+      "review_type": "large_transfer",
+      "priority": "high",
+      "risk_score": 60,
+      "transaction_details": {
+        "amount": 75000.00,
+        "recipient": "BUSINESS_PARTNER_CO",
+        "source_account": "ACC_3001",
+        "description": "Business investment",
+        "timestamp": "2026-06-12T16:45:25"
+      },
+      "user_context": {
+        "user_tier": "business",
+        "daily_limit_remaining": 25000.00,
+        "monthly_limit_remaining": 425000.00,
+        "recent_transactions": 1,
+        "account_age_days": 215
+      },
+      "risk_factors": [
+        "Amount exceeds daily limit",
+        "New business partner"
+      ],
+      "status": "approved",
+      "assigned_to": "reviewer_john",
+      "approved_at": "2026-06-12T17:00:00",
+      "approved_by": "reviewer_john",
+      "approval_notes": "Verified business relationship, approved with callback verification",
+      "timeout_minutes": 30,
+      "expires_at": "2026-06-12T17:15:30"
+    }
+  ],
+  "statistics": {
+    "total_pending": 2,
+    "total_in_review": 1,
+    "total_approved": 1,
+    "total_denied": 0,
+    "average_wait_time_minutes": 8.5,
+    "last_updated": "2026-06-13T10:00:00"
+  }
+}

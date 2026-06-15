@@ -1,0 +1,289 @@
+{
+  "demo_metadata": {
+    "project": "Finance Agentic Chatbot",
+    "date": "2026-06-13",
+    "langgraph_version": "0.2.0",
+    "total_demos": 7
+  },
+  "demo_outputs": [
+    {
+      "demo_id": 1,
+      "input": "What's my current checking account balance?",
+      "output": {
+        "response": "Your checking account balance is **$5,420.50**.",
+        "state_snapshot": {
+          "intent": "balance_check",
+          "current_plan": ["get_account_balance"],
+          "current_step": 1,
+          "tool_calls": [
+            {
+              "tool_name": "get_account_balance",
+              "parameters": {"account_type": "checking", "user_id": "user_123"},
+              "status": "completed"
+            }
+          ],
+          "tool_results": [
+            {
+              "tool_name": "get_account_balance",
+              "status": "success",
+              "result": {"balance": 5420.50, "account_type": "checking"}
+            }
+          ],
+          "validation_status": "passed",
+          "risk_score": 5,
+          "needs_human_review": false,
+          "processing_stage": "response_generation"
+        },
+        "execution_time_ms": 245,
+        "nodes_executed": ["classifier", "planner", "tool_decision", "tool_execution", "validation", "risk_check", "response_generation"]
+      }
+    },
+    {
+      "demo_id": 2,
+      "input": "What's the current price of Apple stock (AAPL)?",
+      "output": {
+        "response": "AAPL is currently **$175.50** (📈 +$2.30, +1.33% today). Volume: 55,000,000 shares.",
+        "state_snapshot": {
+          "intent": "stock_price",
+          "current_plan": ["fetch_stock_price"],
+          "current_step": 1,
+          "tool_calls": [
+            {
+              "tool_name": "fetch_stock_price",
+              "parameters": {"symbol": "AAPL"},
+              "status": "completed"
+            }
+          ],
+          "tool_results": [
+            {
+              "tool_name": "fetch_stock_price",
+              "status": "success",
+              "result": {
+                "symbol": "AAPL",
+                "price": 175.50,
+                "change": 2.30,
+                "change_percent": 1.33,
+                "volume": 55000000
+              }
+            }
+          ],
+          "validation_status": "passed",
+          "risk_score": 0,
+          "needs_human_review": false,
+          "processing_stage": "response_generation"
+        },
+        "execution_time_ms": 312,
+        "nodes_executed": ["classifier", "planner", "tool_decision", "tool_execution", "validation", "response_generation"]
+      }
+    },
+    {
+      "demo_id": 3,
+      "input": "Transfer $500 to account #987654321 for monthly rent",
+      "output": {
+        "response": " Transfer of **$500.00** to account 987654321 has been completed successfully. Transaction ID: TXN_A7B3F9E2.",
+        "state_snapshot": {
+          "intent": "transfer_money",
+          "current_plan": ["validate_recipient", "check_sufficient_balance", "execute_fund_transfer"],
+          "current_step": 3,
+          "transaction_amount": 500.00,
+          "recipient_account": "987654321",
+          "tool_calls": [],
+          "tool_results": [
+            {
+              "tool_name": "validate_recipient_account",
+              "status": "success",
+              "result": {"success": true, "valid": true}
+            },
+            {
+              "tool_name": "check_sufficient_balance",
+              "status": "success",
+              "result": {"sufficient": true, "balance": 5420.50}
+            },
+            {
+              "tool_name": "execute_fund_transfer",
+              "status": "success",
+              "result": {
+                "transaction_id": "TXN_A7B3F9E2",
+                "amount": 500.00,
+                "status": "completed",
+                "new_balance": 4920.50
+              }
+            }
+          ],
+          "validation_status": "passed",
+          "risk_score": 35,
+          "risk_factors": ["New recipient", "Moderate amount"],
+          "needs_human_review": false,
+          "processing_stage": "response_generation"
+        },
+        "execution_time_ms": 567,
+        "nodes_executed": ["classifier", "planner", "tool_decision", "tool_execution", "validation", "tool_decision", "tool_execution", "validation", "risk_check", "response_generation"]
+      }
+    },
+    {
+      "demo_id": 4,
+      "input": "Send $15,000 to Crypto Exchange Binance account #CRYPTO123",
+      "output": {
+        "response": "⚠️ **Human Review Required**: This transaction requires additional verification due to risk factors. A review request has been sent to our security team. You will be notified within 10 minutes.",
+        "state_snapshot": {
+          "intent": "transfer_money",
+          "current_plan": ["validate_recipient", "check_sufficient_balance", "execute_fund_transfer"],
+          "current_step": 2,
+          "transaction_amount": 15000.00,
+          "recipient_account": "CRYPTO123",
+          "tool_calls": [
+            {
+              "tool_name": "execute_fund_transfer",
+              "parameters": {"amount": 15000.00, "to_account": "CRYPTO123"},
+              "status": "pending_review"
+            }
+          ],
+          "tool_results": [
+            {
+              "tool_name": "validate_recipient_account",
+              "status": "success",
+              "result": {"success": true, "valid": true}
+            },
+            {
+              "tool_name": "check_sufficient_balance",
+              "status": "success",
+              "result": {"sufficient": true, "balance": 5420.50}
+            }
+          ],
+          "validation_status": "passed",
+          "risk_score": 85,
+          "risk_factors": [
+            "Large transaction amount ($15,000)",
+            "Crypto exchange recipient",
+            "New recipient",
+            "Transaction at off-hours"
+          ],
+          "needs_human_review": true,
+          "human_review_decision": "pending",
+          "processing_stage": "human_review"
+        },
+        "execution_time_ms": 423,
+        "nodes_executed": ["classifier", "planner", "tool_decision", "tool_execution", "validation", "tool_decision", "tool_execution", "validation", "risk_check", "human_review"],
+        "human_review_interrupt": true
+      }
+    },
+    {
+      "demo_id": 5,
+      "input": "I think someone hacked my account. There's an unauthorized charge of $2,000",
+      "output": {
+        "response": "⚠️ **Fraud Alert**: This transaction has been flagged for unusual activity. Our fraud detection team has been notified. Please verify your identity by calling 1-800-BANK-SAFE. Your account has been temporarily frozen to prevent further unauthorized transactions.",
+        "state_snapshot": {
+          "intent": "fraud_report",
+          "current_plan": ["get_transaction_history", "run_fraud_detection", "generate_fraud_report"],
+          "current_step": 3,
+          "transaction_amount": 2000.00,
+          "tool_calls": [],
+          "tool_results": [
+            {
+              "tool_name": "get_transaction_history",
+              "status": "success",
+              "result": {"transactions": [{"date": "2026-06-12", "amount": 156.32, "description": "Grocery Store", "type": "debit"}]}
+            },
+            {
+              "tool_name": "run_fraud_detection",
+              "status": "success",
+              "result": {"fraud_score": 95, "is_suspicious": true}
+            }
+          ],
+          "validation_status": "passed",
+          "risk_score": 95,
+          "fraud_flag": true,
+          "needs_human_review": true,
+          "human_review_decision": "approved_emergency",
+          "processing_stage": "response_generation"
+        },
+        "execution_time_ms": 678,
+        "nodes_executed": ["classifier", "planner", "tool_decision", "tool_execution", "validation", "tool_decision", "tool_execution", "risk_check", "human_review", "response_generation"]
+      }
+    },
+    {
+      "demo_id": 6,
+      "input": "Show me my last 5 transactions",
+      "output": {
+        "response": "**Your recent transactions:**\n- 2026-06-12: $156.32 - Grocery Store (debit)\n- 2026-06-11: $4,500.00 - Salary Deposit (credit)\n- 2026-06-10: $15.99 - Netflix Subscription (debit)\n- 2026-06-08: $500.00 - Transfer to Savings (transfer)\n- 2026-06-05: $89.99 - Amazon Purchase (debit)",
+        "state_snapshot": {
+          "intent": "transaction_history",
+          "current_plan": ["get_transaction_history"],
+          "current_step": 1,
+          "tool_calls": [],
+          "tool_results": [
+            {
+              "tool_name": "get_transaction_history",
+              "status": "success",
+              "result": {
+                "transactions": [
+                  {"date": "2026-06-12", "amount": 156.32, "description": "Grocery Store", "type": "debit"},
+                  {"date": "2026-06-11", "amount": 4500.00, "description": "Salary Deposit", "type": "credit"},
+                  {"date": "2026-06-10", "amount": 15.99, "description": "Netflix", "type": "debit"},
+                  {"date": "2026-06-08", "amount": 500.00, "description": "Transfer to Savings", "type": "transfer"},
+                  {"date": "2026-06-05", "amount": 89.99, "description": "Amazon", "type": "debit"}
+                ]
+              }
+            }
+          ],
+          "validation_status": "passed",
+          "risk_score": 0,
+          "needs_human_review": false,
+          "processing_stage": "response_generation"
+        },
+        "execution_time_ms": 189,
+        "nodes_executed": ["classifier", "planner", "tool_decision", "tool_execution", "validation", "response_generation"]
+      }
+    },
+    {
+      "demo_id": 7,
+      "input": "Check my balance, then transfer $300 to savings if I have enough funds",
+      "output": {
+        "response": "Balance check completed. Your checking balance is **$5,420.50**. Sufficient funds available. Transfer of **$300.00** to savings has been completed. New balance: **$5,120.50**.",
+        "state_snapshot": {
+          "intent": "multi_step_transaction",
+          "current_plan": ["check_balance", "verify_funds", "execute_transfer"],
+          "current_step": 3,
+          "transaction_amount": 300.00,
+          "recipient_account": "savings",
+          "tool_calls": [],
+          "tool_results": [
+            {
+              "tool_name": "get_account_balance",
+              "status": "success",
+              "result": {"balance": 5420.50}
+            },
+            {
+              "tool_name": "check_sufficient_balance",
+              "status": "success",
+              "result": {"sufficient": true}
+            },
+            {
+              "tool_name": "execute_fund_transfer",
+              "status": "success",
+              "result": {
+                "transaction_id": "TXN_M7N4K2P9",
+                "amount": 300.00,
+                "status": "completed"
+              }
+            }
+          ],
+          "validation_status": "passed",
+          "risk_score": 15,
+          "needs_human_review": false,
+          "processing_stage": "response_generation"
+        },
+        "execution_time_ms": 734,
+        "nodes_executed": ["classifier", "planner", "tool_decision", "tool_execution", "validation", "tool_decision", "tool_execution", "validation", "tool_decision", "tool_execution", "validation", "risk_check", "response_generation"]
+      }
+    }
+  ],
+  "performance_summary": {
+    "average_response_time_ms": 449,
+    "fastest_response_ms": 189,
+    "slowest_response_ms": 734,
+    "total_nodes_executed": 87,
+    "human_review_interruptions": 1,
+    "success_rate": "100%"
+  }
+}

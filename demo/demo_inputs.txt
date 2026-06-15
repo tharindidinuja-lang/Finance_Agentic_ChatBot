@@ -1,0 +1,124 @@
+================================================================================
+FINANCE AGENTIC CHATBOT - DEMO INPUTS
+================================================================================
+Project: AI ML Engineer Program - CodeZila Career Accelerator
+Date: June 2026
+================================================================================
+
+DEMO INPUT #1: Basic Balance Inquiry (Low Risk - Fast Path)
+--------------------------------------------------------------------------------
+User: "What's my current checking account balance?"
+
+Expected Flow: Classifier → Planner → Tool Decision → Tool Execution → 
+               Validation → Risk Check → Response Generation
+
+Risk Score: Low (<30)
+Human Review: Not required
+
+
+DEMO INPUT #2: Stock Price Lookup (External API Call)
+--------------------------------------------------------------------------------
+User: "What's the current price of Apple stock (AAPL)?"
+
+Expected Flow: Classifier → Planner → Tool Decision → Tool Execution (Stock API) → 
+               Validation → Response Generation
+
+Risk Score: None (market data)
+Human Review: Not required
+
+
+DEMO INPUT #3: Fund Transfer (Medium Risk - Requires Validation)
+--------------------------------------------------------------------------------
+User: "Transfer $500 to account #987654321 for monthly rent"
+
+Expected Flow: Classifier → Planner → Tool Decision → Tool Execution → 
+               Validation → Risk Check → Response Generation
+
+Risk Score: Medium (35-50)
+Risk Factors: New recipient, moderate amount
+Human Review: Not required (below threshold)
+
+
+DEMO INPUT #4: Large Transfer (High Risk - Human Review Required)
+--------------------------------------------------------------------------------
+User: "Send $15,000 to Crypto Exchange Binance account #CRYPTO123"
+
+Expected Flow: Classifier → Planner → Tool Decision → Tool Execution → 
+               Validation → Risk Check → Human Review (interrupt) → 
+               Response Generation
+
+Risk Score: High (85)
+Risk Factors: Large amount, crypto recipient, new recipient, off-hours
+Human Review: REQUIRED
+
+
+DEMO INPUT #5: Fraud Report (Special Handling)
+--------------------------------------------------------------------------------
+User: "I think someone hacked my account. There's an unauthorized charge of $2,000"
+
+Expected Flow: Classifier → Planner → Tool Decision → Tool Execution → 
+               Risk Check → Response Generation (with fraud alert)
+
+Risk Score: High (90)
+Human Review: REQUIRED (immediate)
+
+
+DEMO INPUT #6: Transaction History Inquiry
+--------------------------------------------------------------------------------
+User: "Show me my last 5 transactions"
+
+Expected Flow: Classifier → Planner → Tool Decision → Tool Execution (History API) → 
+               Validation → Response Generation
+
+Risk Score: Low
+Human Review: Not required
+
+
+DEMO INPUT #7: Multi-step Complex Query
+--------------------------------------------------------------------------------
+User: "Check my balance, then transfer $300 to savings if I have enough funds"
+
+Expected Flow: Classifier → Planner (multi-step) → Tool Decision (check balance) → 
+               Tool Execution → Validation → Tool Decision (transfer) → 
+               Tool Execution → Validation → Risk Check → Response Generation
+
+Risk Score: Low
+Human Review: Not required
+
+
+================================================================================
+ADDITIONAL EDGE CASES FOR DEMO
+================================================================================
+
+EDGE CASE #1: Invalid Input (Amount Exceeds Balance)
+--------------------------------------------------------------------------------
+User: "Transfer $1,000,000 to account #999999"
+
+Expected Response: Insufficient funds error with available balance
+
+
+EDGE CASE #2: Missing Information (Requires Clarification)
+--------------------------------------------------------------------------------
+User: "Send money"
+
+Expected Response: Ask for amount and recipient
+
+
+EDGE CASE #3: Retry Logic (API Failure)
+--------------------------------------------------------------------------------
+User: "Get stock price for TSLA"
+
+Simulated: First API call fails → Retry with backoff → Success on retry 2
+
+
+================================================================================
+DEMO INPUT SUMMARY
+================================================================================
+Total Demo Inputs: 7
+- Low Risk Transactions: 3
+- Medium Risk Transactions: 1  
+- High Risk Transactions: 2
+- Edge Cases: 3
+
+All inputs demonstrate different paths through the LangGraph workflow.
+================================================================================

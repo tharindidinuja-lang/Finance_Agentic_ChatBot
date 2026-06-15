@@ -1,0 +1,170 @@
+================================================================================
+                    FINANCE AGENTIC CHATBOT - LANGGRAPH WORKFLOW
+================================================================================
+
+                                    ┌─────────────┐
+                                    │   START     │
+                                    └──────┬──────┘
+                                           │
+                                           ▼
+                                ┌─────────────────────┐
+                                │   CLASSIFIER NODE    │
+                                │  (Intent Detection)  │
+                                └──────────┬──────────┘
+                                           │
+                    ┌──────────────────────┼──────────────────────┐
+                    │                      │                      │
+                    ▼                      ▼                      ▼
+            ┌─────────────┐        ┌─────────────┐        ┌─────────────┐
+            │   PLANNER   │        │   RESPONSE  │        │   RESPONSE  │
+            │    NODE     │        │  (No Intent)│        │ (Unknown)   │
+            └──────┬──────┘        └─────────────┘        └─────────────┘
+                   │
+                   ▼
+            ┌─────────────┐
+            │TOOL DECISION│
+            │    NODE     │
+            └──────┬──────┘
+                   │
+        ┌──────────┼──────────┐
+        │          │          │
+        ▼          ▼          ▼
+   ┌────────┐ ┌────────┐ ┌────────┐
+   │TOOL    │ │RESPONSE│ │RESPONSE│
+   │EXECUTION│ │(No Tool│ │(Error) │
+   └────┬───┘ └────────┘ └────────┘
+        │
+    ┌───┼───┐
+    │   │   │
+    ▼   ▼   ▼
+  [OK] [FAIL] [TIMEOUT]
+    │    │      │
+    │    ▼      ▼
+    │  ┌─────┐ ┌─────┐
+    │  │RETRY│ │RETRY│
+    │  │NODE │ │NODE │
+    │  └──┬──┘ └──┬──┘
+    │     │       │
+    │     └───┬───┘
+    │         ▼
+    │    ┌─────────┐
+    └───►│VALIDATION│
+         │  NODE   │
+         └────┬────┘
+              │
+         ┌────┼────┐
+         │    │    │
+         ▼    ▼    ▼
+       [PASS] [FAIL] [PARTIAL]
+         │     │      │
+         │     ▼      ▼
+         │   ┌─────┐ ┌─────┐
+         │   │RETRY│ │RETRY│
+         │   │NODE │ │NODE │
+         │   └──┬──┘ └──┬──┘
+         │      │       │
+         │      └───┬───┘
+         ▼          ▼
+    ┌──────────┐ ┌─────────┐
+    │RISK CHECK│ │REPLAN   │
+    │  NODE    │ │(if needed)│
+    └─────┬────┘ └────┬────┘
+          │           │
+          ▼           │
+     ┌────┴────┐      │
+     │         │      │
+     ▼         ▼      │
+  [HIGH]    [LOW]     │
+  RISK      RISK      │
+     │        │       │
+     │        └───────┼───┐
+     ▼                │   │
+┌─────────────┐       │   │
+│HUMAN REVIEW │       │   │
+│    NODE     │       │   │
+└──────┬──────┘       │   │
+       │              │   │
+   ┌───┼───┐          │   │
+   │   │   │          │   │
+   ▼   ▼   ▼          │   │
+[APPROVE] [DENY] [MODIFY]│
+   │    │      │       │   │
+   │    │      └───┐   │   │
+   │    │          │   │   │
+   │    ▼          ▼   │   │
+   │  ┌─────┐    ┌────┐│   │
+   │  │RESP │    │TOOL││   │
+   │  └─────┘    │EXEC││   │
+   │             └──┬─┘│   │
+   │                │  │   │
+   └────────────────┼──┼───┘
+                    │  │
+                    ▼  ▼
+              ┌─────────────────┐
+              │    RESPONSE     │
+              │   GENERATION    │
+              │      NODE       │
+              └────────┬────────┘
+                       │
+                       ▼
+                 ┌───────────┐
+                 │    END    │
+                 └───────────┘
+
+
+================================================================================
+                          WORKFLOW LEGEND
+================================================================================
+
+┌─────────┐  - Processing Node     [CONDITION] - Conditional Branch
+    │      - Flow Direction        ► - Transition Edge
+    ▼      - Next Node             ┌──┐ - Decision Point
+
+================================================================================
+                          NODE DESCRIPTIONS
+================================================================================
+
+1. CLASSIFIER NODE      - Classifies user intent (balance, transfer, stock, fraud)
+2. PLANNER NODE         - Creates step-by-step execution plan
+3. TOOL DECISION NODE   - Selects appropriate tool for current step
+4. TOOL EXECUTION NODE  - Executes selected tool (API calls, database queries)
+5. VALIDATION NODE      - Validates tool execution results
+6. RETRY NODE           - Handles retry logic with exponential backoff
+7. RISK CHECK NODE      - Calculates risk score and flags suspicious activity
+8. HUMAN REVIEW NODE    - Routes high-risk transactions for human approval
+9. RESPONSE GENERATION  - Generates final user-friendly response
+
+================================================================================
+                          CONDITIONAL ROUTING
+================================================================================
+
+• Classifier → Planner (if intent detected) | Response (if no intent)
+• Planner → Tool Decision (if plan exists) | Response (if empty plan)
+• Tool Decision → Tool Execution (if tool selected) | Response (if none)
+• Tool Execution → Validation (if success) | Retry (if failed)
+• Validation → Risk Check (if passed) | Retry (if failed) | Tool Decision (if more steps)
+• Retry → Tool Execution (if retry allowed) | Risk Check (if done) | Response (if max retries)
+• Risk Check → Human Review (if high risk) | Response (if low risk)
+• Human Review → Tool Execution (if approved) | Response (if denied)
+
+================================================================================
+                          DEMO PATHS VISUALIZED
+================================================================================
+
+Path 1 (Low Risk - Balance Check):
+START → CLASSIFIER → PLANNER → TOOL DECISION → TOOL EXECUTION → 
+VALIDATION → RISK CHECK → RESPONSE GENERATION → END
+
+Path 2 (Medium Risk - Transfer):
+START → CLASSIFIER → PLANNER → TOOL DECISION → TOOL EXECUTION → 
+VALIDATION → RISK CHECK → RESPONSE GENERATION → END
+
+Path 3 (High Risk - Large Transfer):
+START → CLASSIFIER → PLANNER → TOOL DECISION → TOOL EXECUTION → 
+VALIDATION → RISK CHECK → HUMAN REVIEW → RESPONSE GENERATION → END
+
+Path 4 (With Retry):
+START → CLASSIFIER → PLANNER → TOOL DECISION → TOOL EXECUTION → 
+VALIDATION → RETRY → TOOL EXECUTION → VALIDATION → RISK CHECK → END
+
+================================================================================

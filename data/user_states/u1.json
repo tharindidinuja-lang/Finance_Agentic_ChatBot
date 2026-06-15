@@ -1,0 +1,22 @@
+{
+  "messages": [],
+  "current_plan": [],
+  "current_step": 0,
+  "tool_calls": [],
+  "tool_results": [],
+  "validation_status": "pending",
+  "validation_message": "",
+  "retry_count": 0,
+  "retry_action": "none",
+  "retry_message": "",
+  "risk_score": 0,
+  "risk_factors": [],
+  "fraud_flag": false,
+  "needs_human_review": false,
+  "human_approved": null,
+  "human_review_decision": null,
+  "human_review_notes": null,
+  "user_id": "u1",
+  "transaction_amount": null,
+  "recipient_account": null
+}

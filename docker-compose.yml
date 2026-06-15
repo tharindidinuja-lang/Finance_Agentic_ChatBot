@@ -1,0 +1,135 @@
+# docker-compose.yml
+# ============================================================================
+# FINANCE AGENTIC CHATBOT - DOCKER COMPOSE CONFIGURATION
+# ============================================================================
+# Run: docker-compose up -d
+# Stop: docker-compose down
+# ============================================================================
+
+version: '3.8'
+
+services:
+  # ============================================================================
+  # PostgreSQL Database (for transaction persistence)
+  # ============================================================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: finance_agent_postgres
+    environment:
+      POSTGRES_USER: finance_user
+      POSTGRES_PASSWORD: finance_password
+      POSTGRES_DB: finance_agent
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - finance_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U finance_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================================================
+  # Redis Cache (for state persistence and rate limiting)
+  # ============================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: finance_agent_redis
+    command: redis-server --appendonly yes --requirepass redis_password
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - finance_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ============================================================================
+  # FastAPI Backend Server
+  # ============================================================================
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: finance_agent_api
+    environment:
+      - APP_ENV=production
+      - POSTGRES_HOST=postgres
+      - REDIS_HOST=redis
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+    networks:
+      - finance_network
+    restart: unless-stopped
+    command: uvicorn ui.api_server:app --host 0.0.0.0 --port 8000
+
+  # ============================================================================
+  # Streamlit Web UI (Optional)
+  # ============================================================================
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    container_name: finance_agent_streamlit
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+    environment:
+      - API_URL=http://api:8000
+    networks:
+      - finance_network
+    restart: unless-stopped
+    command: streamlit run ui/streamlit_app.py --server.port 8501 --server.address 0.0.0.0
+
+  # ============================================================================
+  # Nginx Reverse Proxy (Optional - for production)
+  # ============================================================================
+  nginx:
+    image: nginx:alpine
+    container_name: finance_agent_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./ssl:/etc/nginx/ssl
+    depends_on:
+      - api
+      - streamlit
+    networks:
+      - finance_network
+    restart: unless-stopped
+
+# ============================================================================
+# Volumes for persistent data
+# ============================================================================
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+
+# ============================================================================
+# Networks
+# ============================================================================
+networks:
+  finance_network:
+    driver: bridge

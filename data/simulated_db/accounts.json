@@ -1,0 +1,100 @@
+{
+  "accounts": [
+    {
+      "account_id": "ACC_1001",
+      "user_id": "user_123",
+      "account_type": "checking",
+      "account_number": "****1234",
+      "balance": 5420.50,
+      "currency": "USD",
+      "status": "active",
+      "created_at": "2024-01-15T10:30:00",
+      "last_updated": "2026-06-13T09:00:00",
+      "interest_rate": 0.01,
+      "overdraft_limit": 500.00
+    },
+    {
+      "account_id": "ACC_1002",
+      "user_id": "user_123",
+      "account_type": "savings",
+      "account_number": "****5678",
+      "balance": 15750.00,
+      "currency": "USD",
+      "status": "active",
+      "created_at": "2024-01-15T10:30:00",
+      "last_updated": "2026-06-12T15:30:00",
+      "interest_rate": 2.50,
+      "overdraft_limit": 0.00
+    },
+    {
+      "account_id": "ACC_1003",
+      "user_id": "user_123",
+      "account_type": "investment",
+      "account_number": "****9012",
+      "balance": 45320.75,
+      "currency": "USD",
+      "status": "active",
+      "created_at": "2024-03-20T14:00:00",
+      "last_updated": "2026-06-10T11:20:00",
+      "interest_rate": 4.50,
+      "overdraft_limit": 0.00
+    },
+    {
+      "account_id": "ACC_2001",
+      "user_id": "test_user_001",
+      "account_type": "checking",
+      "account_number": "****1111",
+      "balance": 15000.00,
+      "currency": "USD",
+      "status": "active",
+      "created_at": "2024-02-01T09:00:00",
+      "last_updated": "2026-06-12T16:45:00",
+      "interest_rate": 0.01,
+      "overdraft_limit": 1000.00
+    },
+    {
+      "account_id": "ACC_2002",
+      "user_id": "test_user_001",
+      "account_type": "savings",
+      "account_number": "****2222",
+      "balance": 50000.00,
+      "currency": "USD",
+      "status": "active",
+      "created_at": "2024-02-01T09:00:00",
+      "last_updated": "2026-06-11T10:00:00",
+      "interest_rate": 2.50,
+      "overdraft_limit": 0.00
+    },
+    {
+      "account_id": "ACC_3001",
+      "user_id": "premium_user",
+      "account_type": "checking",
+      "account_number": "****3333",
+      "balance": 250000.00,
+      "currency": "USD",
+      "status": "active",
+      "created_at": "2023-11-10T08:30:00",
+      "last_updated": "2026-06-12T14:20:00",
+      "interest_rate": 0.05,
+      "overdraft_limit": 5000.00
+    },
+    {
+      "account_id": "ACC_3002",
+      "user_id": "premium_user",
+      "account_type": "savings",
+      "account_number": "****4444",
+      "balance": 750000.00,
+      "currency": "USD",
+      "status": "active",
+      "created_at": "2023-11-10T08:30:00",
+      "last_updated": "2026-06-10T09:15:00",
+      "interest_rate": 3.50,
+      "overdraft_limit": 0.00
+    }
+  ],
+  "summary": {
+    "total_accounts": 7,
+    "total_balance": 1111041.25,
+    "last_updated": "2026-06-13T10:00:00"
+  }
+}

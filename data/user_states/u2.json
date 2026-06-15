@@ -1,0 +1,104 @@
+{
+  "messages": [
+    "content='Show my last 5 transactions' additional_kwargs={} response_metadata={} id='a49fef57-4bef-4d0c-b8e1-00136ae2be37'",
+    "content='**Your recent transactions:**\\n- 2026-06-13: $156.32 - Grocery Store\\n- 2026-06-12: $4,500.00 - Salary Deposit\\n- 2026-06-09: $15.99 - Netflix Subscription\\n- 2026-06-07: $500.00 - Transfer to Savings\\n- 2026-06-04: $78.45 - Restaurant\\n' additional_kwargs={} response_metadata={} id='0d726a95-00a8-47bf-b3c8-3f99c81294e7' tool_calls=[] invalid_tool_calls=[]",
+    "content='**Your recent transactions:**\\n- 2026-06-13: $156.32 - Grocery Store\\n- 2026-06-12: $4,500.00 - Salary Deposit\\n- 2026-06-09: $15.99 - Netflix Subscription\\n- 2026-06-07: $500.00 - Transfer to Savings\\n- 2026-06-04: $78.45 - Restaurant\\n' additional_kwargs={} response_metadata={} id='e6955465-3edf-407d-b319-bc950c2a43a7' tool_calls=[] invalid_tool_calls=[]"
+  ],
+  "current_plan": [
+    "get_transaction_history"
+  ],
+  "current_step": 1,
+  "tool_calls": [],
+  "tool_results": [
+    {
+      "tool_name": "get_transaction_history",
+      "status": "success",
+      "result": {
+        "success": true,
+        "user_id": "u2",
+        "transaction_count": 7,
+        "transactions": [
+          {
+            "id": "TXN001",
+            "date": "2026-06-13",
+            "description": "Grocery Store",
+            "amount": 156.32,
+            "type": "debit",
+            "category": "food",
+            "status": "completed"
+          },
+          {
+            "id": "TXN002",
+            "date": "2026-06-12",
+            "description": "Salary Deposit",
+            "amount": 4500.0,
+            "type": "credit",
+            "category": "income",
+            "status": "completed"
+          },
+          {
+            "id": "TXN003",
+            "date": "2026-06-09",
+            "description": "Netflix Subscription",
+            "amount": 15.99,
+            "type": "debit",
+            "category": "entertainment",
+            "status": "completed"
+          },
+          {
+            "id": "TXN004",
+            "date": "2026-06-07",
+            "description": "Transfer to Savings",
+            "amount": 500.0,
+            "type": "transfer",
+            "category": "savings",
+            "status": "completed"
+          },
+          {
+            "id": "TXN005",
+            "date": "2026-06-04",
+            "description": "Restaurant",
+            "amount": 78.45,
+            "type": "debit",
+            "category": "food",
+            "status": "completed"
+          },
+          {
+            "id": "TXN006",
+            "date": "2026-05-30",
+            "description": "Electric Bill",
+            "amount": 125.0,
+            "type": "debit",
+            "category": "utilities",
+            "status": "completed"
+          },
+          {
+            "id": "TXN007",
+            "date": "2026-05-25",
+            "description": "Amazon Purchase",
+            "amount": 89.99,
+            "type": "debit",
+            "category": "shopping",
+            "status": "completed"
+          }
+        ],
+        "summary": {
+          "total_debits": 465.75,
+          "total_credits": 4500.0,
+          "net_change": 4034.25,
+          "period_days": 30
+        }
+      },
+      "timestamp": 1781423623.9738646
+    }
+  ],
+  "validation_status": "passed",
+  "retry_count": 0,
+  "risk_score": 25,
+  "fraud_flag": false,
+  "needs_human_review": false,
+  "human_approved": null,
+  "user_id": "u2",
+  "transaction_amount": null,
+  "recipient_account": null
+}
