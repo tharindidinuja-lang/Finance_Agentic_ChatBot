@@ -4,8 +4,14 @@
 [![LangGraph](https://img.shields.io/badge/LangGraph-0.2.0+-green.svg)](https://langchain-ai.github.io/langgraph/)
 [![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o--mini-orange.svg)](https://openai.com)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/tharindidinuja-lang/Finance_Agentic_ChatBot)
+[![GitHub Stars](https://img.shields.io/github/stars/tharindidinuja-lang/Finance_Agentic_ChatBot?style=social)](https://github.com/tharindidinuja-lang/Finance_Agentic_ChatBot)
+
+**View on GitHub:** [tharindidinuja-lang/Finance_Agentic_ChatBot](https://github.com/tharindidinuja-lang/Finance_Agentic_ChatBot)
 
 A production-ready intelligent banking assistant built with **LangGraph** that demonstrates multi-step reasoning, tool calling, risk assessment, and human-in-the-loop approval workflows.
+
+---
 
 ## 📋 Table of Contents
 
@@ -131,17 +137,3 @@ This project fulfills all 13 required deliverables:
 
 ---
 
-# 🏦 Finance Agentic Chatbot
-
-[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://python.org)
-[![LangGraph](https://img.shields.io/badge/LangGraph-0.2.0+-green.svg)](https://langchain-ai.github.io/langgraph/)
-[![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4o--mini-orange.svg)](https://openai.com)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-blue?logo=github)](https://github.com/tharindidinuja-lang/Finance_Agentic_ChatBot)
-[![GitHub Stars](https://img.shields.io/github/stars/tharindidinuja-lang/Finance_Agentic_ChatBot?style=social)](https://github.com/tharindidinuja-lang/Finance_Agentic_ChatBot)
-
-**View on GitHub:** [tharindidinuja-lang/Finance_Agentic_ChatBot](https://github.com/tharindidinuja-lang/Finance_Agentic_ChatBot)
-
-A production-ready intelligent banking assistant built with **LangGraph** that demonstrates multi-step reasoning, tool calling, risk assessment, and human-in-the-loop approval workflows.
-
----
